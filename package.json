@@ -1,0 +1,12 @@
+{
+  "name": "todolist-RESTful-API-kata",
+  "version": "1.0.0",
+  "description": "Node企業專班2024預習任務",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Drew Lee",
+  "license": "ISC"
+}
