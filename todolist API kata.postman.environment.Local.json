@@ -1,0 +1,31 @@
+{
+	"id": "aa44ea9f-195c-41c1-950d-64a6b2fecd65",
+	"name": "[Local] todolist API kata",
+	"values": [
+		{
+			"key": "host",
+			"value": "127.0.0.1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "port",
+			"value": "8080",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "route",
+			"value": "todolist",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "version",
+			"value": "v1",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+}
