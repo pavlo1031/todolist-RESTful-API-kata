@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "f121b490-6d66-4db7-a7b7-88c6749198bd",
+		"name": "todolist RESTful API kata",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5490446"
+	},
+	"item": [
+		{
+			"name": "Preflight OPTIONS API",
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/api/{{route}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"{{route}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "取得所有todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/api/{{route}}/list",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"{{route}}",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "新增 todos",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"it's my work today!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/api/{{route}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"{{route}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "修改 todos",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"d3a0ec33-99ff-48a1-bf9f-4c9f22b6b3b4\",\r\n    \"title\": \"i'm on vacation now!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/api/{{route}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"{{route}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除單筆 todos",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"d3a0ec33-99ff-48a1-bf9f-4c9f22b6b3b4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}:{{port}}/api/{{route}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"{{route}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除全部 todos",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{host}}:{{port}}/api/{{route}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"{{route}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
