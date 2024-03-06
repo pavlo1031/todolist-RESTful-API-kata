@@ -12,14 +12,11 @@
 				"method": "OPTIONS",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:{{port}}/api/{{route}}",
-					"protocol": "http",
+					"raw": "{{url}}/{{route}}",
 					"host": [
-						"{{host}}"
+						"{{url}}"
 					],
-					"port": "{{port}}",
 					"path": [
-						"api",
 						"{{route}}"
 					]
 				}
@@ -32,14 +29,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:{{port}}/api/{{route}}/list",
-					"protocol": "http",
+					"raw": "{{url}}/{{route}}/list",
 					"host": [
-						"{{host}}"
+						"{{url}}"
 					],
-					"port": "{{port}}",
 					"path": [
-						"api",
 						"{{route}}",
 						"list"
 					]
@@ -62,14 +56,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}:{{port}}/api/{{route}}",
-					"protocol": "http",
+					"raw": "{{url}}/{{route}}",
 					"host": [
-						"{{host}}"
+						"{{url}}"
 					],
-					"port": "{{port}}",
 					"path": [
-						"api",
 						"{{route}}"
 					]
 				}
@@ -91,14 +82,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}:{{port}}/api/{{route}}",
-					"protocol": "http",
+					"raw": "{{url}}/{{route}}",
 					"host": [
-						"{{host}}"
+						"{{url}}"
 					],
-					"port": "{{port}}",
 					"path": [
-						"api",
 						"{{route}}"
 					]
 				}
@@ -120,14 +108,11 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{host}}:{{port}}/api/{{route}}",
-					"protocol": "http",
+					"raw": "{{url}}/{{route}}",
 					"host": [
-						"{{host}}"
+						"{{url}}"
 					],
-					"port": "{{port}}",
 					"path": [
-						"api",
 						"{{route}}"
 					]
 				}
@@ -140,14 +125,11 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://{{host}}:{{port}}/api/{{route}}",
-					"protocol": "http",
+					"raw": "{{url}}/{{route}}",
 					"host": [
-						"{{host}}"
+						"{{url}}"
 					],
-					"port": "{{port}}",
 					"path": [
-						"api",
 						"{{route}}"
 					]
 				}

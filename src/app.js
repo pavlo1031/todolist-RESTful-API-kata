@@ -5,6 +5,8 @@ const http = require('http');
 const web = require('./web_declarations');
 const { preflight } = require('./web_util');
 
+const URL_TODOS = '/todos';
+const URL_TODOS_API = '/api/todos';
 
 const requestHandler = (req, response) => {
     // response headers
@@ -20,22 +22,25 @@ const requestHandler = (req, response) => {
             response.write("Server");
             response.end();
         }
-        else if (req.url.startsWith('/todolist')) {
-            const apiPath = req.url.substring(9);
-            console.log(`- todolist path: \"${apiPath}\"`);
+        // text/html
+        else if (req.url.startsWith(URL_TODOS)) {
+            const apiPath = req.url.substring(URL_TODOS.length);
+            console.log(`- path: \"${apiPath}\"`);
             const paths = apiPath.split('/').filter((s) => s.length > 0);
-            console.log(`- api path segments: [${paths}]`);
+            console.log(`- path segments: [${paths}]`);
 
             response.writeHead(200, headers);
             response.write("<h2>Todolist Backend</h2>");
+            response.write(`operation: \"${paths[0]}\"<br/>`);
             response.write("目前開發中...");
             response.end();
         }
-        else if (req.url.startsWith('/api/todolist')) {
-            const apiPath = req.url.substring(13);
-            console.log(`- todolist api path: \"${apiPath}\"`);
+        // application/json
+        else if (req.url.startsWith(URL_TODOS_API)) {
+            const apiPath = req.url.substring(URL_TODOS_API.length);
+            console.log(`- api path: \"${apiPath}\"`);
             const paths = apiPath.split('/').filter((s) => s.length > 0);
-            console.log(`- api path segments: [${paths}]`);
+            console.log(`- path segments: [${paths}]`);
 
             // preflight流程
             if (preflight(req, response)) {
@@ -46,7 +51,7 @@ const requestHandler = (req, response) => {
 
             // 一般流程
             response.writeHead(200, {...headers, ...web.HEADERS_APPLICATION_JSON});
-            response.write(`it's todolist API, operation: ${req.method}<br/>`);
+            response.write(`it's todolist API, operation: "${paths[0]}"`);
             response.end();
         }
         else {

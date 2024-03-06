@@ -3,7 +3,7 @@
 	"name": "[Local] todolist API kata",
 	"values": [
 		{
-			"key": "host",
+			"key": "serverHost",
 			"value": "127.0.0.1",
 			"type": "default",
 			"enabled": true
@@ -16,13 +16,19 @@
 		},
 		{
 			"key": "route",
-			"value": "todolist",
+			"value": "todos",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "version",
 			"value": "v1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "url",
+			"value": "http://{{serverHost}}:{{port}}/api",
 			"type": "default",
 			"enabled": true
 		}
