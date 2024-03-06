@@ -5,11 +5,11 @@ const web = require('./web_declarations');
  * @throws failException 檢驗失敗拋錯誤 
  */
 function preflight(req, response) {
-    console.log('\n### Preflight Check: ###');
-    if ('OPTIONS' != req.method) {
-        console.warn('- not a OPTIONS request, skip...\n');
+    if ('OPTIONS' != req.method)
         return false;
-    }
+
+    // It's a OPTIONS api
+    console.log('\n### Preflight Check: ###');
 
     let success;
     // do checks
