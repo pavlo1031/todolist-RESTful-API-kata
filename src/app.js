@@ -18,7 +18,6 @@ const requestHandler = (req, response) => {
     };
     let statusCode = 200;
     let message;
-    let payload;
 
     console.log(`[${req.method}] "${req.url}"`);
     try {
@@ -80,8 +79,7 @@ const requestHandler = (req, response) => {
                 response.writeHead(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON});
                 response.write(JSON.stringify({
                     status: 'failed',
-                    message: err,
-                    data: (payload)? payload:undefined
+                    msg: err
                 }));
                 response.end();
                 return;
@@ -96,8 +94,7 @@ const requestHandler = (req, response) => {
             response.writeHead(statusCode, headers);
             response.write(JSON.stringify({
                 status: (statusCode == 200)? 'success':'failed',
-                message: (message)? message:undefined,
-                data: (payload)? payload:undefined
+                msg: (message)? message:undefined
             }));
             response.end();
             return;
@@ -113,8 +110,7 @@ const requestHandler = (req, response) => {
         response.writeHead(statusCode, headers);
         response.write(JSON.stringify({
             status: 'failed',
-            message: message,
-            data: (payload)? payload:undefined
+            msg: message
         }));
         response.end();
         return;
