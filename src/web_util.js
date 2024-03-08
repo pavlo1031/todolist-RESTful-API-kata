@@ -25,6 +25,46 @@ function preflight(req, response) {
     throw "Preflight check failed";
 }
 
+function getRequestBody(req, func_body_structure_validate) {
+    return new Promise((resolve, reject) => {
+        let bodyRaw = '';
+        let bodyJson = null;
+
+        // start collecting chunks
+        req.setEncoding('utf8');
+        req.on('data', (chunk) => {
+            bodyRaw += chunk;
+        });        
+        req.on('end', () => {
+            try {
+                // parse
+                bodyJson = JSON.parse(bodyRaw);
+                // body structure validation
+                if (!func_body_structure_validate) {
+                    resolve(bodyJson);
+                }
+                else {
+                    let ret = null;
+                    try {
+                        ret = func_body_structure_validate(bodyJson);
+                        if (ret === true)
+                            resolve(bodyJson);
+                        else
+                            reject('body structure validation failed.');
+                    }
+                    catch (validateError) {
+                        reject(validateError);
+                    }
+                }
+            }
+            catch (parseError) {
+                reject(parseError);
+            }
+        });
+    });
+}
+
 module.exports = {
-    preflight
+    preflight,
+    getRequestBody
 }

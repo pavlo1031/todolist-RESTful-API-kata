@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 // Web constants, and customized checks
 const web = require('./web_declarations');
-const { preflight } = require('./web_util');
+const { preflight, getRequestBody } = require('./web_util');
 
 const URL_TODOS_API = '/api/todos';
 
@@ -48,27 +48,43 @@ const requestHandler = (req, response) => {
                     case 'GET':
                         break;
                     case 'POST':
-                        todo.id = uuidv4();
-                        todo.title = 'def'
-                        todolist.push(todo);
-                        console.log('- 已新增一task: ' + JSON.stringify(todo));
-                        console.log('- 目前todolist: ' + JSON.stringify(todolist));
+                        getRequestBody(req, (bodyJson) => {
+                            return 'title' in bodyJson;
+                        })
+                        .then((bodyJson) => {
+                            console.log(`request body:${JSON.stringify(bodyJson)}`);
+                            todo.id = uuidv4();
+                            todo.title = bodyJson.title;
+                            todolist.push(todo);
+
+                            // keep states
+                            statusCode = 200;
+                            // write response
+                            response.writeHead(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON});
+                            response.write(JSON.stringify({
+                                status: 'success',
+                                data: (todo)? todo:undefined
+                            }));
+                            response.end();
+                        })
+                        .catch((err) => {
+                            console.log(`ERROR: :${err}`);
+                            // keep states
+                            statusCode = 500;
+                            // write response
+                            response.writeHead(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON});
+                            response.write(JSON.stringify({
+                                status: 'failed',
+                                msg: err
+                            }));
+                            response.end();
+                        });
                         break;
                     case 'PATCH':
                         break;
                     case 'DELETE':
                         break;
                 }
-                // keep states
-                statusCode = 200;
-                payload = todo;
-                // write response
-                response.writeHead(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON});
-                response.write(JSON.stringify({
-                    status: 'success',
-                    data: (payload)? payload:undefined
-                }));
-                response.end();
                 return;
             }
             catch (err) {
