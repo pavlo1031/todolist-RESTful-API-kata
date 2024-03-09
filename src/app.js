@@ -8,7 +8,7 @@ const { preflight, getRequestBody } = require('./web_util');
 
 const URL_TODOS_API = '/api/todos';
 
-var todolist = [];
+var todolist = new Map();
 
 const requestHandler = (req, response) => {
     // response headers
@@ -57,7 +57,7 @@ const requestHandler = (req, response) => {
                             console.log(`request body:${JSON.stringify(bodyJson)}`);
                             todo.id = uuidv4();
                             todo.title = bodyJson.title;
-                            todolist.push(todo);
+                            todolist.set(todo.id, todo);
 
                             // keep states
                             statusCode = 200;
