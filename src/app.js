@@ -21,13 +21,14 @@ const requestHandler = (req, response) => {
 
     console.log(`[${req.method}] "${req.url}"`);
     try {
+        // Server root
         if (req.url == '/') {
             response.writeHead(200, headers);
             response.write("Server");
             response.end();
             return;
         }
-        // application/json
+        // Todolist API (application/json)
         else if (req.url.startsWith(URL_TODOS_API)) {
             const apiPath = req.url.substring(URL_TODOS_API.length);
             console.log(`- api path: \"${apiPath}\"`);
@@ -36,6 +37,7 @@ const requestHandler = (req, response) => {
 
             // preflight流程
             if (preflight(req, response)) {
+                /* 檢查通過 */
                 response.writeHead(200, headers);
                 response.end();
                 return;
@@ -101,7 +103,7 @@ const requestHandler = (req, response) => {
                 return;
             }
         }
-        // API Not found
+        // Error: 404 (Not found)
         else {
             // keep states
             statusCode = 404;
@@ -116,7 +118,7 @@ const requestHandler = (req, response) => {
             return;
         }
     }
-    // 未處理錯誤
+    // Error: 其他未處理錯誤
     catch (err) {
         // keep states
         statusCode = 500;
