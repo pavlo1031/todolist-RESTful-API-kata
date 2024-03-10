@@ -48,6 +48,15 @@ const requestHandler = (req, response) => {
             try {
                 switch (req.method) {
                     case 'GET': {
+                        // keep states
+                        statusCode = 200;
+                        // write response
+                        writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
+                            JSON.stringify({
+                                status: 'success',
+                                data: Array.from(todolist.values())
+                            })
+                        );
                         break;
                     }
                     case 'POST': {
