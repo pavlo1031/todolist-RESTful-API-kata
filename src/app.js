@@ -47,9 +47,10 @@ const requestHandler = (req, response) => {
             let todo = {};
             try {
                 switch (req.method) {
-                    case 'GET':
+                    case 'GET': {
                         break;
-                    case 'POST':
+                    }
+                    case 'POST': {
                         getRequestBody(req, (bodyJson) => {
                             return 'title' in bodyJson;
                         })
@@ -82,10 +83,13 @@ const requestHandler = (req, response) => {
                             response.end();
                         });
                         break;
-                    case 'PATCH':
+                    }
+                    case 'PATCH': {
                         break;
-                    case 'DELETE':
+                    }
+                    case 'DELETE': {
                         break;
+                    }
                 }
                 return;
             }
