@@ -25,6 +25,12 @@ function preflight(req, response) {
     throw "Preflight check failed";
 }
 
+function writeResponse(statusCode, headers, response, payload) {
+    response.writeHead(statusCode, headers);
+    response.write(payload);
+    response.end();
+}
+
 function getRequestBody(req, func_body_structure_validate) {
     return new Promise((resolve, reject) => {
         let bodyRaw = '';
@@ -66,5 +72,6 @@ function getRequestBody(req, func_body_structure_validate) {
 
 module.exports = {
     preflight,
-    getRequestBody
+    getRequestBody,
+    writeResponse
 }

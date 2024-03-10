@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 
 // Web constants, and customized checks
 const web = require('./web_declarations');
-const { preflight, getRequestBody } = require('./web_util');
+const { preflight, getRequestBody, writeResponse } = require('./web_util');
 
 const URL_TODOS_API = '/api/todos';
 
@@ -63,24 +63,24 @@ const requestHandler = (req, response) => {
                             // keep states
                             statusCode = 200;
                             // write response
-                            response.writeHead(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON});
-                            response.write(JSON.stringify({
-                                status: 'success',
-                                data: (todo)? todo:undefined
-                            }));
-                            response.end();
+                            writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
+                                JSON.stringify({
+                                    status: 'success',
+                                    data: (todo)? todo:undefined
+                                })
+                            );
                         })
                         .catch((err) => {
                             console.log(`ERROR: :${err}`);
                             // keep states
                             statusCode = 500;
                             // write response
-                            response.writeHead(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON});
-                            response.write(JSON.stringify({
-                                status: 'failed',
-                                msg: err
-                            }));
-                            response.end();
+                            writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
+                                JSON.stringify({
+                                    status: 'failed',
+                                    msg: err
+                                })
+                            );
                         });
                         break;
                     }
@@ -98,12 +98,12 @@ const requestHandler = (req, response) => {
                 statusCode = 500;
                 message = err;
                 // write response
-                response.writeHead(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON});
-                response.write(JSON.stringify({
-                    status: 'failed',
-                    msg: err
-                }));
-                response.end();
+                writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
+                    JSON.stringify({
+                        status: 'failed',
+                        msg: err
+                    })
+                );
                 return;
             }
         }
@@ -113,12 +113,12 @@ const requestHandler = (req, response) => {
             statusCode = 404;
             message = "Not found";
             // write response
-            response.writeHead(statusCode, headers);
-            response.write(JSON.stringify({
-                status: (statusCode == 200)? 'success':'failed',
-                msg: (message)? message:undefined
-            }));
-            response.end();
+            writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
+                JSON.stringify({
+                    status: (statusCode == 200)? 'success':'failed',
+                    msg: (message)? message:undefined
+                })
+            );
             return;
         }
     }
