@@ -160,7 +160,7 @@ const requestHandler = (req, response) => {
             // write response
             writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
                 JSON.stringify({
-                    status: (statusCode == 200)? 'success':'failed',
+                    status: 'failed',
                     msg: (message)? message:undefined
                 })
             );
