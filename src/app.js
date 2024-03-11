@@ -63,9 +63,45 @@ const requestHandler = (req, response) => {
                         getRequestBody(req)
                         .then((bodyJson) => {
                             console.log(`request body:${JSON.stringify(bodyJson)}`);
-                            todo.id = uuidv4();
-                            todo.title = bodyJson.title;
-                            todolist.set(todo.id, todo);
+                            /*
+                             * 測式環境/模式:
+                             * 1).requeset body可使用給定的id
+                             * 2).允許批量新增: requeset body可以是array
+                             */
+                            const isArray = Array.isArray(bodyJson);
+
+                            // 新增多筆
+                            if (isArray) {
+                                todo = [];
+                                [...bodyJson].forEach((element, index) => {
+                                    // 規格中的屬性：id, title
+                                    const { id, title } = element;
+                                    // 非規格屬性：otherProps
+                                    const { ...otherProps } = element;
+                                    // build
+                                    let todo_ = {
+                                        id: (id)? id : uuidv4(),
+                                        title: title,
+                                        ...otherProps
+                                    };
+                                    todo.push(todo_);
+                                    todolist.set(todo_.id, todo_);
+                                });
+                            }
+                            // 新增一筆
+                            else {
+                                // 規格中的屬性：id, title
+                                const { id, title } = bodyJson;
+                                // 非規格屬性：otherProps
+                                const { ...otherProps } = bodyJson;
+                                todo = {
+                                    id: (id)? id : uuidv4(),
+                                    title: title,
+                                    ...otherProps
+                                };
+                                todolist.set(todo.id, todo);
+                            }
+                            console.log(`--> todo: ${JSON.stringify(todo)}`);
 
                             // keep states
                             statusCode = 200;
@@ -73,7 +109,7 @@ const requestHandler = (req, response) => {
                             writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
                                 JSON.stringify({
                                     status: 'success',
-                                    data: (todo)? todo:undefined
+                                    data: (isArray)? Array.from(todo) : todo
                                 })
                             );
                         })
