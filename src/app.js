@@ -60,9 +60,7 @@ const requestHandler = (req, response) => {
                         break;
                     }
                     case 'POST': {
-                        getRequestBody(req, (bodyJson) => {
-                            return 'title' in bodyJson;
-                        })
+                        getRequestBody(req)
                         .then((bodyJson) => {
                             console.log(`request body:${JSON.stringify(bodyJson)}`);
                             todo.id = uuidv4();
