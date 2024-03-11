@@ -74,10 +74,11 @@ const requestHandler = (req, response) => {
                             if (isArray) {
                                 todo = [];
                                 [...bodyJson].forEach((element, index) => {
-                                    // 規格中的屬性：id, title
-                                    const { id, title } = element;
-                                    // 非規格屬性：otherProps
-                                    const { ...otherProps } = element;
+                                    const {
+                                        id, title,    // 規格中的
+                                        ...otherProps // 非規格
+                                    } = element;
+
                                     // build
                                     let todo_ = {
                                         id: (id)? id : uuidv4(),
@@ -90,10 +91,11 @@ const requestHandler = (req, response) => {
                             }
                             // 新增一筆
                             else {
-                                // 規格中的屬性：id, title
-                                const { id, title } = bodyJson;
-                                // 非規格屬性：otherProps
-                                const { ...otherProps } = bodyJson;
+                                const {
+                                    id, title,    // 規格中的
+                                    ...otherProps // 非規格
+                                } = bodyJson;
+
                                 todo = {
                                     id: (id)? id : uuidv4(),
                                     title: title,
