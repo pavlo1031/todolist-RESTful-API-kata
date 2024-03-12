@@ -27,7 +27,19 @@ function preflight(req, response) {
 
 function writeResponse(statusCode, headers, response, payload) {
     response.writeHead(statusCode, headers);
-    response.write(payload);
+    if (payload) {
+        switch(typeof payload) {
+            case 'string':
+                if (payload.length > 0)
+                    response.write(payload);
+                break;
+            case 'object':
+                response.write(JSON.stringify(payload));
+                break;
+            default:
+                response.write(payload);
+        }
+    }
     response.end();
 }
 
