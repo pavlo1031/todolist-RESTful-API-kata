@@ -38,8 +38,7 @@ const requestHandler = (req, response) => {
             // preflight流程
             if (preflight(req, response)) {
                 /* 檢查通過 */
-                response.writeHead(200, headers);
-                response.end();
+                writeResponse(200, headers, response);
                 return;
             }
 
