@@ -82,8 +82,27 @@ function getRequestBody(req, func_body_structure_validate) {
     });
 }
 
+function buildApiUrl(apibaseURL, route, version) {
+    let url = `/${apibaseURL}`;
+    if (version != undefined && version !=  null && version.trim().length > 0) {
+        url += `/${version}`;
+    }
+    url += `/${route}`;
+    return url;
+}
+
+function url_path_info(baseURL, req) {
+    const apiPath = req.url.substring(baseURL.length);
+    console.log(`- api path: \"${apiPath}\"`);
+    const paths = apiPath.split('/').filter((s) => s.length > 0);
+    console.log(`- path segments: [${paths}]`);
+    return { apiPath, paths };
+}
+
 module.exports = {
     preflight,
     getRequestBody,
-    writeResponse
+    writeResponse,
+    buildApiUrl,
+    url_path_info
 }
