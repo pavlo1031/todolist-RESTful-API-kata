@@ -23,9 +23,7 @@ const requestHandler = (req, response) => {
     try {
         // Server root
         if (req.url == '/') {
-            response.writeHead(200, headers);
-            response.write("Server");
-            response.end();
+            writeResponse(200, headers, "Server");
             return;
         }
         // Todolist API (application/json)
@@ -38,7 +36,7 @@ const requestHandler = (req, response) => {
             // preflight流程
             if (preflight(req, response)) {
                 /* 檢查通過 */
-                writeResponse(200, headers, response);
+                writeResponse(200, headers, response, "pass");
                 return;
             }
 
