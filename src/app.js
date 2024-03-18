@@ -4,10 +4,18 @@ const { v4: uuidv4 } = require('uuid');
 
 // Web constants, and customized checks
 const web = require('./web_declarations');
+const { buildApiUrl, url_path_info } = require('./web_util');
 const { preflight, getRequestBody, writeResponse } = require('./web_util');
 
-const URL_TODOS_API = '/api/todos';
+// URL constants
+const API_VERSION = "v1";
+const URL_TODOS_API = buildApiUrl(`api`, 'todos', API_VERSION);
 
+const URL_TODOS_API_LIST = `${URL_TODOS_API}`
+const URL_TODOS_API_COUNT = `${URL_TODOS_API}/count`;
+const URL_TODOS_API_INSERT = `${URL_TODOS_API}`;
+const URL_TODOS_API_UPDATE = `${URL_TODOS_API}`;
+const URL_TODOS_API_DELETE = `${URL_TODOS_API}`;
 var todolist = new Map();
 
 const requestHandler = (req, response) => {
@@ -28,10 +36,7 @@ const requestHandler = (req, response) => {
         }
         // Todolist API (application/json)
         else if (req.url.startsWith(URL_TODOS_API)) {
-            const apiPath = req.url.substring(URL_TODOS_API.length);
-            console.log(`- api path: \"${apiPath}\"`);
-            const paths = apiPath.split('/').filter((s) => s.length > 0);
-            console.log(`- path segments: [${paths}]`);
+            const { apiPath, paths } = url_path_info(URL_TODOS_API, req);
 
             // preflight流程
             if (preflight(req, response)) {
