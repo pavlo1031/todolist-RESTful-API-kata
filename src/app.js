@@ -74,22 +74,28 @@ const requestHandler = (req, response) => {
                     case 'POST': {
                         getRequestBody(req)
                         .then((bodyJson) => {
-                            console.log(`request body:${JSON.stringify(bodyJson)}`);
-                            /*
-                             * 測式環境/模式:
-                             * 1).requeset body可使用給定的id
-                             * 2).允許批量新增: requeset body可以是array
-                             */
+                            //console.log(`- request body:${JSON.stringify(bodyJson)}`);
+                            // 測式環境/模式:
+                            // 1).requeset body可使用給定的id
+                            // 2).允許批量新增: requeset body可以是array
                             const isArray = Array.isArray(bodyJson);
 
                             // 新增多筆
                             if (isArray) {
                                 todo = [];
-                                [...bodyJson].forEach((element, index) => {
+                                console.log("\n======== For-loop iterate over the items: ========");
+                                bodyJson.forEach((element, index) => {
                                     const {
                                         id, title,    // 規格中的
                                         ...otherProps // 非規格
                                     } = element;
+
+                                    // 如果有指定id, 且該id之todo已存在
+                                    const isExisting = (element.hasOwnProperty('id'))? todolist.has(id) : false;
+                                    if (isExisting) {
+                                        console.warn(`[❌] todo項目已存在, id = "${id}", skip...`);
+                                        return;
+                                    }
 
                                     // build
                                     let todo_ = {
@@ -99,6 +105,7 @@ const requestHandler = (req, response) => {
                                     };
                                     todo.push(todo_);
                                     todolist.set(todo_.id, todo_);
+                                    console.info(`[✔] todo item added: ${JSON.stringify(todo_)}`);
                                 });
                             }
                             // 新增一筆
@@ -108,14 +115,22 @@ const requestHandler = (req, response) => {
                                     ...otherProps // 非規格
                                 } = bodyJson;
 
-                                todo = {
-                                    id: (id)? id : uuidv4(),
-                                    title: title,
-                                    ...otherProps
-                                };
-                                todolist.set(todo.id, todo);
+                                // 如果有指定id, 且該id之todo已存在
+                                const isExisting = (bodyJson.hasOwnProperty('id'))? todolist.has(id) : false;
+                                if (isExisting) {
+                                    console.warn(`[❌] todo項目已存在, id = "${id}", skip...`);
+                                    throw `待辦項目已存在, 無法新增todo項目 (id: '${id}')`;
+                                }
+                                else {
+                                    todo = {
+                                        id: (id)? id : uuidv4(),
+                                        title: title,
+                                        ...otherProps
+                                    };
+                                    todolist.set(todo.id, todo);
+                                    console.info(`[✔] item added: ${JSON.stringify(todo)}`);
+                                }
                             }
-                            console.log(`--> todo: ${JSON.stringify(todo)}`);
 
                             // keep states
                             statusCode = 200;
@@ -123,7 +138,8 @@ const requestHandler = (req, response) => {
                             writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
                                 JSON.stringify({
                                     status: 'success',
-                                    data: (isArray)? Array.from(todo) : todo
+                                    data: (isArray)? Array.from(todo) : todo,
+                                    count: (isArray)? todo.length : 1
                                 })
                             );
                         })
@@ -138,7 +154,10 @@ const requestHandler = (req, response) => {
                                     msg: err
                                 })
                             );
-                        });
+                        })
+                        .finally(() => {
+                            console.log('=================================================');
+                        })
                         break;
                     }
                     case 'PATCH': {
