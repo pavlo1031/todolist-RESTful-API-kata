@@ -50,15 +50,25 @@ const requestHandler = (req, response) => {
             try {
                 switch (req.method) {
                     case 'GET': {
-                        // keep states
-                        statusCode = 200;
-                        // write response
-                        writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
-                            JSON.stringify({
-                                status: 'success',
-                                data: Array.from(todolist.values())
-                            })
-                        );
+                        if (URL_TODOS_API_LIST === req.url) {
+                            statusCode = 200;
+                            writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
+                                JSON.stringify({
+                                    status: 'success',
+                                    data: Array.from(todolist.values()),
+                                    count: todolist.size
+                                })
+                            );
+                        }
+                        else if (URL_TODOS_API_COUNT === req.url) {
+                            statusCode = 200;
+                            writeResponse(statusCode, {...headers, ...web.HEADERS_APPLICATION_JSON}, response,                            
+                                JSON.stringify({
+                                    status: 'success',
+                                    count: todolist.size
+                                })
+                            );
+                        }
                         break;
                     }
                     case 'POST': {
